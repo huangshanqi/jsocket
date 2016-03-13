@@ -1,10 +1,8 @@
 package cn.evilcoder.jsocket.client;
 
 import cn.evilcoder.jsocket.comment.JConstant;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -13,30 +11,12 @@ import java.net.Socket;
  * Time: 11:52
  */
 public class JClient {
-    public static final Log logger = LogFactory.getLog(JClient.class);
     public static void main(String[] args) throws IOException,InterruptedException{
-        for (int i=0;i<10;i++){
+        for (int i=0;i<100000;i++){
             Socket socket = new Socket("127.0.0.1", JConstant.DEFAULT_SERVER_PORT);
-            try {
-                sendMsg(socket,i);
-            }finally {
-                socket.close();
-            }
+            new Thread(new ClientRunnable(socket,i)).start();
         }
-
-
     }
 
-    public static void sendMsg(Socket socket,int i) throws IOException, InterruptedException {
-        logger.info("start client with =="+socket);
-        // ÉèÖÃIO¾ä±ú
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-        out.println("Hello Server,I am " + i);
-        String str = in.readLine();
-        out.println("byebye");
-        Thread.sleep(1000*10L);
-        logger.info("stop client with =="+socket);
-    }
 
 }
