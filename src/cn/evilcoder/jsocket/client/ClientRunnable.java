@@ -39,6 +39,6 @@ public class ClientRunnable implements Runnable{
         String str = in.readLine();
 //        logger.info(index + " client get from server = "+str);
         out.println("byebye");
-        Thread.sleep(1000*10L);
+        Thread.sleep(1000*100L);
     }
 }
